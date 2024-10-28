@@ -1,0 +1,10 @@
+.venv
+
+*.pdf
+*.docx
+*.csv
+*.parquet
+*.txt
+*.jpg
+*.jpeg
+*.png
