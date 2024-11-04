@@ -10,3 +10,4 @@
 *.png
 
 !/lab4/results/*.png
+!/lab4/docs/*.pdf
