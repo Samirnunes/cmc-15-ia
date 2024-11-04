@@ -8,3 +8,5 @@
 *.jpg
 *.jpeg
 *.png
+
+!/lab4/results/*.png
