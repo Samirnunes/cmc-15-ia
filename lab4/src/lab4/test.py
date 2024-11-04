@@ -10,3 +10,4 @@ if __name__ == "__main__":
         max_iter=10000
     )
     result = pso.run()
+    print(result)
