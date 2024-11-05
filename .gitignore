@@ -10,5 +10,5 @@ __pycache__
 *.jpeg
 *.png
 
-!/lab4/results/*.png
-!/lab4/docs/*.pdf
+!/lab4/results/**
+!/lab4/docs/**
