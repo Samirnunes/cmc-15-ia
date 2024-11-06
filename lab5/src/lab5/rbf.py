@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.exceptions import NotFittedError
-from sklearn.cluster import KMeans
 
 
 class RBFLayer:
@@ -14,7 +13,7 @@ class RBFLayer:
     
     def fit(self, X: np.ndarray):
         self._centers = self._calculate_centers(X)
-        self._sigma = self._calculate_sigma(X)
+        self._sigma = self._calculate_sigma()
         self._fitted = True
         return self
 
@@ -24,15 +23,15 @@ class RBFLayer:
         raise NotFittedError
     
     def _calculate_centers(self, X: np.ndarray):
-        k_means = KMeans().fit(self._rand.choice(X.shape[0], self._n_centers, replace=False))
-        return k_means.cluster_centers_
+        indices = self._rand.choice(X.shape[0], self._n_centers, replace=False)
+        return X[indices]
     
-    def _calculate_sigma(self, X: np.ndarray):
-        return max(-cdist(X, self._centers, "sqeuclidean")) / np.sqrt(2 * self._n_centers)
+    def _calculate_sigma(self):
+        return np.max(cdist(self._centers, self._centers, "sqeuclidean")) / np.sqrt(2 * self._n_centers)
 
     @staticmethod
-    def _gaussian_rbf(X: np.ndarray, center: np.ndarray, sigma: float):
-        return np.exp(-cdist(X, center, "sqeuclidean") / (2 * sigma**2))
+    def _gaussian_rbf(X: np.ndarray, centers: np.ndarray, sigma: float):
+        return np.exp(-cdist(X, centers, "sqeuclidean") / (2 * sigma**2))
 
 
 class RBFNetwork:
@@ -43,18 +42,16 @@ class RBFNetwork:
         self.weights = None
         self.fitted = False
 
-    def fit(self, X_train, y_train):
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray):
         self.layer = RBFLayer(self.n_neurons, self.random_state).fit(X_train)
         phi: np.ndarray = self.layer.predict(X_train)
-        self.weights: np.ndarray = self._calculate_pseudo_inverse(phi) @ y_train
+        self.weights: np.ndarray = np.linalg.pinv(phi) @ y_train
         self.fitted = True
         return self
 
-    def predict(self, X):
+    def predict(self, X: np.ndarray):
         if self.fitted:
             phi = self.layer.predict(X)
-            return phi @ self.weights
+            y_pred = phi @ self.weights
+            return (y_pred >= 0.5).astype(int)
         raise NotFittedError
-    
-    def _calculate_pseudo_inverse(self, phi: np.ndarray):
-        return np.linalg.inv(phi.T @ phi) @ phi.T
