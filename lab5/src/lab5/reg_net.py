@@ -1,7 +1,7 @@
 from abc import ABC
 
 import numpy as np
-from log import logger
+from lab5.logger import logger
 from scipy.spatial.distance import cdist
 from sklearn.exceptions import NotFittedError
 

@@ -1,6 +1,6 @@
-from lab5.lab import a, b, c, d, e, f
+from lab5.tasks import a, b, c, d, e, f
 
 if __name__ == "__main__":
-    items = [a, b, c, d, e, f]
-    for item in items:
-        item()
+    tasks = [a, b, c, d, e, f]
+    for task in tasks:
+        task()

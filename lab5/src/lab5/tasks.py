@@ -1,6 +1,6 @@
-from log import logger
-from rbf import RBFNetwork
-from regularization import NoRegularizationNetwork, RegularizationNetwork
+from lab5.logger import logger
+from lab5.rbf_net import RBFNetwork
+from lab5.reg_net import NoRegularizationNetwork, RegularizationNetwork
 from sklearn.metrics import accuracy_score
 from utils import import_data
 
