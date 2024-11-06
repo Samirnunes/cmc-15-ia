@@ -10,7 +10,7 @@ class RBFLayer:
         self._centers: np.ndarray = None
         self._sigma: float = None
         self._fitted = False
-    
+
     def fit(self, X: np.ndarray):
         self._centers = self._calculate_centers(X)
         self._sigma = self._calculate_sigma()
@@ -21,13 +21,15 @@ class RBFLayer:
         if self._fitted:
             return RBFLayer._gaussian_rbf(X, self._centers, self._sigma)
         raise NotFittedError
-    
+
     def _calculate_centers(self, X: np.ndarray):
         indices = self._rand.choice(X.shape[0], self._n_centers, replace=False)
         return X[indices]
-    
+
     def _calculate_sigma(self):
-        return np.max(cdist(self._centers, self._centers, "sqeuclidean")) / np.sqrt(2 * self._n_centers)
+        return np.max(cdist(self._centers, self._centers, "sqeuclidean")) / np.sqrt(
+            2 * self._n_centers
+        )
 
     @staticmethod
     def _gaussian_rbf(X: np.ndarray, centers: np.ndarray, sigma: float):

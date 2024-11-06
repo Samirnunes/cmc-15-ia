@@ -4,4 +4,3 @@ if __name__ == "__main__":
     items = [a, b, c, d, e, f]
     for item in items:
         item()
-    
