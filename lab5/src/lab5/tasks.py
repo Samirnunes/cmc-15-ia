@@ -24,7 +24,8 @@ def a():
 
         y_test_pred = reg_net.predict(X_test)
         logger.info(f"Test set accuracy: {accuracy_score(y_test, y_test_pred)}\n")
-
+    else:
+        logger.info("")
 
 def b():
     logger.info("\nb)")
@@ -45,7 +46,8 @@ def b():
 
             y_test_pred = reg_net.predict(X_test)
             logger.info(f"Test set accuracy: {accuracy_score(y_test, y_test_pred)}\n")
-
+        else:
+            logger.info("")
 
 def c():
     logger.info("\nc)")
